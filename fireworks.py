@@ -4,10 +4,12 @@
 ## This python code (3.6.0) uses tkinter library to draw fireworks
 ## animation on a window.
 ## Please review, comment and/or improvize.
+## Release Notes:
+## 1. on explosion, the background is lightened for a cycle
 ##
 ## TODO:
-## 1. on explosion, the background can be lightened for a few cycles
 ## 2. consider adding sound effects with each explosion
+## 3. some trails for the ball will be fine (five-pixel long?)
 ##
 ## Things I've learned:
 ## 1. using the Canvas and creating deleting items
@@ -91,9 +93,11 @@ for i in range(3):
 while True:
     ddel = -1
     pdel = -1
+    canvas.config(bg="black")
     for i, ball in enumerate(balls):
         ball.move()
         if ball.explode:
+            canvas.config(bg="gray")
             posx=(canvas.coords(ball.shape)[0]+canvas.coords(ball.shape)[2])*0.5
             posy=(canvas.coords(ball.shape)[1]+canvas.coords(ball.shape)[3])*0.5
             ddel = i
