@@ -8,3 +8,7 @@ Challenge#1 : Fireworks animation using Tkinter in Python. More explanation is i
 Challenge#2 : RandomFlow animation using Tkinter in Python. More explanation is inside the file, RandomFlow.py. 
 
 Challenge#3 : SmartRockets, animation and genetic algorithms. animation part is complete. Genetic Algorithm is not done yet.
+
+Challenge#4 : CircleGrow: a photo, and tons of circles that grow to collage that photo. Quite slow, but works.
+
+Challenge#5 : Earthquake visualiser (for Turkey), More explanation is inside the file, EarthQuaker.py. Dirty code, but works. It contains remanants of a silly transformation checker (which I coded to learn about the Python language).
