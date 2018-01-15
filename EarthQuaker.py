@@ -13,8 +13,8 @@ tk = Tk()
 earthquakes = []
 WIDTH  = 897
 HEIGHT = 460
-
-with open('CSV.csv', newline='') as f:
+##eventList_20171229
+with open('eventList_20171229.csv', newline='') as f:
     reader = csv.reader(f)
     for row in reader:
         earthquakes.append(row)
@@ -45,20 +45,21 @@ class Quake:
         self.posy = y
         ##col=[min((a+b),255) for a,b in zip(list(img.get(self.posx,self.posy)),[0,0,0])]
         ##col=('#%02X%02X%02X' % (col[0],col[1],col[2]))
-        col=('#%02X%02X%02X' % (255-c,c,255))
+        col=('#%02X%02X%02X' % (255-c,c,255-c))
         self.col=col
-        self.r = r
-        self.shape = ellipse(canvas,self.posx,self.posy,self.r,self.col,"c")
+        self.r = 0.7*r**1.5  ##r*r*0.4   TODO: PLAY WITH IT
+        self.shape = ellipse(canvas,x,y,self.r,self.col,"c")
 
 quakes = []
 for i in range(1,len(earthquakes)):
     if i == 0: continue
-    x = float(earthquakes[i][3])
-    y = float(earthquakes[i][4])
     mag=float(earthquakes[i][8])
-    (x,y)=ll2xy(x,y)
-    print(x,y)
-    quakes.append(Quake(x,y,mag,0))
+    if mag >= 3.00:     ## ignore all quakes that mag <3.
+        x = float(earthquakes[i][3])
+        y = float(earthquakes[i][4])
+        (x,y)=ll2xy(x,y)
+        ##print(x,y)
+        quakes.append(Quake(x,y,mag,int(mag**3))) ## the last argument is for coloring!
 
 
 lats = []
@@ -109,17 +110,17 @@ for l in range(100):
                 thisgood = True
                 if min(m,n)<best:
                     best = min(m,n)
-                    print(l,k,j,best)
+                    print("new best found!: ", l,k,j,best)
         if thisgood:
             gooda.append(a)
             goodb.append(b)
             goodc.append(c)
-            ellipse(canvas,gooda[len(gooda)-1]*4,gooda[len(goodb)-1]*4,2,col,"tag")   
+##            ellipse(canvas,gooda[len(gooda)-1]*4,gooda[len(goodb)-1]*4,2,col,"tag")   
                     
 ##    quakes.append(Quake(x[i],y[i],x[i]%255))
 ##    quakes.append(Quake(x2,y2,x[i]%255))
 print("finished, %Y found : ", len(gooda))
-print(best)
+print("best", best)
 
 if len(gooda)<30:
     print([gooda, goodb, goodc])
@@ -132,5 +133,4 @@ if len(gooda)>0:
           0.5*(max(goodc)+min(goodc)))
 print(y2,y)
 tk.mainloop()
-
 
