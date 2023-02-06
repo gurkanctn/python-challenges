@@ -14,7 +14,8 @@ earthquakes = []
 WIDTH  = 897
 HEIGHT = 460
 ##eventList_20171229
-with open('eventList_20171229.csv', newline='') as f:
+with open('2023-02-06.csv', newline='') as f:
+    #Tarih(TS),Enlem,Boylam,Derinlik(Km),Tip,Büyüklük,Yer,Deprem Id
     reader = csv.reader(f)
     for row in reader:
         earthquakes.append(row)
@@ -35,9 +36,15 @@ def ellipse(w,x,y,r,col,t):
     id=w.create_oval(x-r,y-r,x+r,y+r,fill=col,tag=t)
 
 def ll2xy(lat,lon):
-    myx = 117 + ((lon - 27.7666) * (43.478))
-    myy = 378 + (lat-36.1348)*(-52.87233763)
-    return (myx,myy)
+    #(lat, lon) = (38.283157, 26.278373) = İzmir batı ucu = (x,y) = (56, 263)
+    #(lat, lon) = (39.912954, 32.782739) = Ankara merkez = (x,y) = (325, 176)
+    #(lat, lon) = (37.200750, 44.766408) = Hakkari Ucu = (x,y) = (824, 322)
+    #(lat, lon) = (42.101058, 34.959371) = sinop Ucu = (x,y) = (418, 58)
+    newx = 56 + (lon - 26.278373) * (824-56)/(44.766408-26.278373)
+    newy = 58 + (lat - 42.101058) * (322-58)/(37.200750-42.101058)
+    #myx = 117 + ((lon - 27.7666) * (43.478))
+    #myy = 378 + (lat-36.1348)*(-52.87233763)
+    return (newx,newy)
 
 class Quake:
     def __init__(self,x,y,r,c):
@@ -53,13 +60,13 @@ class Quake:
 quakes = []
 for i in range(1,len(earthquakes)):
     if i == 0: continue
-    mag=float(earthquakes[i][8])
+    mag=float(earthquakes[i][5])
     if mag >= 3.00:     ## ignore all quakes that mag <3.
-        x = float(earthquakes[i][3])
-        y = float(earthquakes[i][4])
-        (x,y)=ll2xy(x,y)
+        lat = float(earthquakes[i][1])
+        lon = float(earthquakes[i][2])
+        (x,y)=ll2xy(lat,lon)
         ##print(x,y)
-        quakes.append(Quake(x,y,mag,int(mag**3))) ## the last argument is for coloring!
+        quakes.append(Quake(x,y,0.2*(mag**2),int(mag**3))) ## the last argument is for coloring!
 
 
 lats = []
